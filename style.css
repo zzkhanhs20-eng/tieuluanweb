@@ -1,4 +1,4 @@
-/* style.css - Fix mobile grid layout stacking */
+/* style.css - Fix sidebar/content width on mobile */
 :root{
   --bg: #071022;
   --card-bg: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
@@ -30,10 +30,7 @@ a{color:inherit;text-decoration:none}
   from { opacity: 0; transform: translateY(15px); }
   to { opacity: 1; transform: translateY(0); }
 }
-/* === THAY ĐỔI (CODE 09): Apply animation later if needed, prevent initial jump */
-/* .main-grid {
-  animation: fadeInSlideUp 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.1s both;
-} */
+/* .main-grid { animation: fadeInSlideUp 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.1s both; } */
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
@@ -122,8 +119,6 @@ a{color:inherit;text-decoration:none}
 .theme-toggle input:checked + .slider { background-color: var(--accent-2); }
 .theme-toggle input:checked + .slider::after { transform: translateX(20px); background-color: white; }
 
-/* --- Phần còn lại của file CSS giữ nguyên từ CODE 07 --- */
-
 /* Light Theme */
 body.light{
   --bg:#f4f6fb;
@@ -187,7 +182,16 @@ body.light .social-link:hover .social-text { color: var(--accent); }
 body.light .contact-info { color: var(--text); }
 
 /* Layout */
-.main-grid{display:grid; grid-template-columns:260px 1fr; gap:20px; padding:18px; align-items: start;}
+/* === THAY ĐỔI (CODE 10): Ensure grid takes full width available */
+.main-grid{
+    display:grid;
+    grid-template-columns: 260px 1fr; /* Default desktop layout */
+    gap:20px;
+    padding:18px;
+    align-items: start;
+    max-width: 100%; /* Prevent grid from exceeding viewport width */
+}
+/* === KẾT THÚC (CODE 10) === */
 
 /* Sidebar */
 .sidebar{ background:var(--panel); padding:14px; border-radius:12px; box-shadow:var(--shadow); }
@@ -214,6 +218,15 @@ select option { background-color: var(--bg); color: var(--text); }
 .btn-history:hover { background: rgba(255, 255, 255, 0.1); color: var(--text); border-color: var(--accent-2); transform: scale(1.05); }
 .btn-history:active { transform: scale(0.98); transition-duration: 0.1s; }
 
+/* Content Area */
+/* === THÊM MỚI (CODE 10): Ensure content area can shrink */
+.content {
+    min-width: 0; /* Allow content area to shrink below its intrinsic minimum width */
+}
+/* === KẾT THÚC (CODE 10) === */
+
+
+/* --- Phần còn lại của file CSS giữ nguyên --- */
 /* Hero */
 .hero{position:relative;height:320px;border-radius:12px;overflow:hidden;background:linear-gradient(90deg, rgba(0,0,0,0.3), rgba(2,6,23,0.6));box-shadow:var(--shadow);display:flex;align-items:center}
 .hero-inner{display:flex;transition:transform .6s cubic-bezier(.2,.9,.3,1);width:100%}
@@ -225,14 +238,12 @@ select option { background-color: var(--bg); color: var(--text); }
 .hero-controls{position:absolute;right:12px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:6px}
 .hero-controls button{background:rgba(0,0,0,0.4);border:none;color:var(--text);padding:6px 10px;border-radius:8px;cursor:pointer; transition: transform 0.1s ease;}
 .hero-controls button:active { transform: scale(0.9); }
-
 /* Toolbar */
 .toolbar{display:flex;justify-content:space-between;align-items:center;padding:12px 0}
 .results-info{color:var(--muted)}
 .view-controls .icon{background:transparent;border:none;color:var(--muted);padding:8px;border-radius:8px;cursor:pointer; transition: transform 0.1s ease;}
 .view-controls .icon.active{color:var(--accent-2)}
 .view-controls .icon:active { transform: scale(0.9); }
-
 /* Movies Grid */
 .movies-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px}
 .movie-card{background:var(--card-bg);border-radius:12px;overflow:hidden;box-shadow:0 10px 30px rgba(2,6,23,0.5);cursor:pointer;display:flex;flex-direction:column;transition:transform .25s ease,box-shadow .25s ease}
@@ -250,7 +261,6 @@ select option { background-color: var(--bg); color: var(--text); }
     animation: rainbow-cycle 2.5s linear infinite; white-space: nowrap;
 }
 .fav-btn{background:transparent;border:none;font-size:18px;cursor:pointer;color:var(--muted)}
-
 /* General Modal Styles */
 .modal.hidden{display:none}
 .modal{position:fixed;inset:0;z-index:1200;display:flex;align-items:center;justify-content:center}
@@ -264,7 +274,6 @@ select option { background-color: var(--bg); color: var(--text); }
 .modal-close{position:absolute;right:12px;top:8px;font-size:28px;background:transparent;border:none;color:var(--muted);cursor:pointer; transition: transform 0.1s ease;}
 .modal-close:active { transform: scale(0.9); }
 .modal-body{display:flex;gap:16px;padding:20px;color:var(--text)}
-
 /* Detail Modal (movieModal) */
 .modal-content.movie-detail-content{width: min(1200px, 95%);max-height: 95vh;}
 .modal-body-detail {display: grid;grid-template-columns: 2fr 1fr;gap: 20px;padding: 20px;}
@@ -282,7 +291,6 @@ select option { background-color: var(--bg); color: var(--text); }
 }
 .modal-info-text .btn:hover, .genre-controls .btn:hover, .profile-controls .btn:hover, .comment-form .btn:hover { background: var(--accent-2); }
 .modal-info-text .btn:active, .genre-controls .btn:active, .profile-controls .btn:active, .comment-form .btn:active { transform: scale(0.98); }
-
 /* Interaction Section Styles */
 .interaction-section {padding: 10px;border-left: 1px solid rgba(255,255,255,0.05);display: flex;flex-direction: column;gap: 20px;}
 .rating-section h4, .comment-section h4 {margin: 0 0 10px 0;font-size: 18px;color: var(--text);border-bottom: 1px solid rgba(255,255,255,0.05);padding-bottom: 8px;}
@@ -304,7 +312,6 @@ select option { background-color: var(--bg); color: var(--text); }
 .comment-author {font-weight: 700;color: var(--accent-2);margin-bottom: 4px;font-size: 14px;}
 .comment-text {font-size: 14px;color: var(--text);}
 .comment-date {font-size: 11px;color: var(--muted);margin-top: 4px;display: block;}
-
 /* Ranking Modal Styles */
 .ranking-content {width: min(700px, 95%);}
 .modal-body-ranking {padding: 20px;}
@@ -318,7 +325,6 @@ select option { background-color: var(--bg); color: var(--text); }
 .rank-meta { font-size: 12px; color: var(--muted); }
 .rank-score { font-weight: 700; color: var(--accent); }
 .rank-views { font-size: 12px; color: var(--muted); }
-
 /* Other Modal Styles */
 #genreFilterModal .modal-content {width: min(500px, 95%);overflow: hidden;}
 #genreFilterModal .modal-body {display: block;}
@@ -327,7 +333,6 @@ select option { background-color: var(--bg); color: var(--text); }
 .genre-item span {font-weight: 500;}
 .genre-controls {display: flex;justify-content: flex-end;gap: 10px;}
 .genre-controls .btn {width: auto;}
-
 /* Profile Styles */
 .profile-widget {display: flex;align-items: center;gap: 15px; padding: 15px; background: var(--card-bg);border-radius: 8px;}
 .profile-widget img {width: 58px; height: 58px; border-radius: 50%;object-fit: cover;border: 3px solid var(--accent-2);}
@@ -343,7 +348,6 @@ select option { background-color: var(--bg); color: var(--text); }
 .avatar-option-item.selected {border-color: var(--accent);box-shadow: 0 0 10px var(--accent);}
 .profile-controls {margin-top: 10px;display: flex;justify-content: flex-end;}
 .profile-controls .btn {padding: 10px 20px;font-weight: 600;}
-
 /* Interaction Disabled Styles */
 .interaction-disabled-overlay {text-align: center;padding: 40px 20px;background: rgba(0,0,0,0.2);border-radius: 8px;border: 1px dashed var(--muted);}
 .interaction-disabled-overlay h4 {color: var(--accent);}
@@ -357,7 +361,6 @@ select option { background-color: var(--bg); color: var(--text); }
 .interaction-section.interaction-locked .action-btn:hover {background: rgba(255,255,255,0.05);}
 .interaction-section.interaction-locked .like-btn.active:hover {background: var(--like-color);}
 .interaction-section.interaction-locked .dislike-btn.active:hover {background: var(--dislike-color);}
-
 /* Pagination Styles */
 .pagination { display: flex; justify-content: center; align-items: center; gap: 8px; margin-top: 30px; padding: 10px 0; }
 #pagination button {
@@ -371,7 +374,6 @@ select option { background-color: var(--bg); color: var(--text); }
 #pagination button:disabled { opacity: 0.4; cursor: not-allowed; }
 #pagination button:active:not(:disabled) { transform: scale(0.95); }
 #pagination #prevPage, #pagination #nextPage { font-weight: bold; }
-
 /* Footer Styles */
 .footer {
     background: linear-gradient(180deg, rgba(7, 16, 34, 0.5), rgba(7, 16, 34, 0.8));
@@ -390,9 +392,8 @@ select option { background-color: var(--bg); color: var(--text); }
 .social-text { font-size: 13px; font-weight: 500; white-space: nowrap; transition: color 0.2s ease; }
 .social-link:hover .social-text { color: var(--accent); }
 .contact-info { cursor: default; color: var(--text); font-weight: 600; display: flex; align-items: center; gap: 5px; }
-
 /* Music Player Styles */
-.music-player { background: var(--panel); border-radius: 8px; padding: 12px; border: 1px solid rgba(255,255,255,0.05); } /* Use --panel for consistency */
+.music-player { background: var(--panel); border-radius: 8px; padding: 12px; border: 1px solid rgba(255,255,255,0.05); }
 #seekBar {
     width: 100%; margin-bottom: 5px; cursor: pointer; height: 6px; appearance: none; -webkit-appearance: none;
     background: rgba(255,255,255,0.1); border-radius: 3px; outline: none; transition: background 0.2s ease;
@@ -408,7 +409,6 @@ select option { background-color: var(--bg); color: var(--text); }
 .player-controls button { background: transparent; border: none; color: var(--muted); font-size: 20px; cursor: pointer; padding: 5px; transition: color 0.2s ease, transform 0.1s ease; }
 .player-controls button:hover { color: var(--accent-2); }
 .player-controls button:active { transform: scale(0.9); }
-
 /* Playlist Styles */
 .playlist-container { margin-top: 15px; max-height: 160px; overflow-y: auto; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 8px; display: flex; flex-direction: column; gap: 2px; }
 .playlist-item {
@@ -439,23 +439,30 @@ select option { background-color: var(--bg); color: var(--text); }
     .interaction-section {border-left: none;border-top: 1px solid rgba(255,255,255,0.05);padding-top: 20px;}
 }
 
-/* === THAY ĐỔI (CODE 09): Mobile header and grid layout fixes === */
+/* === THAY ĐỔI (CODE 10): Mobile layout fixes === */
 @media (max-width: 900px){
-  /* Grid: Ensure single column and remove alignment constraint */
-  .main-grid{ grid-template-columns: 1fr; padding:10px; gap: 15px; align-items: normal; /* Override align-items:start */}
-  .sidebar{ order: 1; /* Sidebar comes after header */ width:100%; }
-  .content { order: 2; /* Content comes after sidebar */ width: 100%;} /* Ensure content takes full width */
+  /* Grid: Ensure single column layout */
+  .main-grid{
+      grid-template-columns: 1fr; /* Force single column */
+      padding: 10px;
+      gap: 15px;
+      /* align-items: normal; */ /* Removed as grid-template-columns: 1fr handles stacking */
+      width: 100%; /* Ensure grid itself doesn't cause overflow */
+  }
+  .sidebar{ order: 1; width: 100%; max-width: 100%; /* Prevent sidebar from exceeding width */}
+  .content { order: 2; width: 100%; max-width: 100%; /* Prevent content from exceeding width */}
 
   /* Hero adjustments */
   .hero{ height: auto; padding-bottom: 20px; }
   .hero-slide { flex-direction: column; text-align: center; padding: 15px; }
-  .hero-slide .info { max-width: 95%; } /* Allow info to be wider */
+  .hero-slide .info { max-width: 95%; }
   .hero-slide img { width: 95%; height: auto; aspect-ratio: 16/9; margin-top: 15px; }
   .hero-desc { max-width: 95%; margin: 0 auto; }
   .hero-controls { position: static; transform: none; flex-direction: row; justify-content: center; margin-top: 10px; }
 
   /* Other mobile adjustments */
   .movie-card .poster{height:200px}
+  .movies-grid{ grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Smaller cards on mobile */ }
   .modal-poster-wrap{flex-direction:column;align-items:center}
   .modal-poster{width:80%;height:auto;max-height:60vh}
   #genreFilterModal .modal-content {width: 90%;}
@@ -463,26 +470,24 @@ select option { background-color: var(--bg); color: var(--text); }
   #pagination button {padding: 6px 10px;min-width: 35px;}
 
   /* Header adjustments for Mobile */
-  .header { padding: 10px 15px; gap: 8px; } /* Reduce padding and gap */
-  .brand { margin-bottom: 0; width: auto; order: 1; /* Brand first */ }
-  .logo { width: 35px; height: 35px; } /* Smaller logo */
-  .brand-text { font-size: 18px; } /* Smaller text */
-  /* Group search and theme toggle together */
-  .header-controls { order: 2; flex-grow: 1; justify-content: flex-end; flex-wrap: nowrap; gap: 8px;}
+  .header { padding: 10px 15px; gap: 8px; }
+  .brand { margin-bottom: 0; width: auto; order: 1; justify-content: flex-start; /* Align brand left */ }
+  .logo { width: 35px; height: 35px; }
+  .brand-text { font-size: 18px; }
+  .header-controls { order: 2; flex-grow: 1; justify-content: flex-end; /* Push search/theme to right */ flex-wrap: nowrap; gap: 8px;}
   .search-wrap { order: 1; flex-grow: 1; max-width: none; }
-  .search-wrap input { width: 100%; padding: 8px 30px 8px 10px; /* Adjust padding */ }
-  .search-wrap button { right: 4px; top: 4px; padding: 4px; } /* Adjust clear button position */
+  .search-wrap input { width: 100%; padding: 8px 30px 8px 10px; }
+  .search-wrap button { right: 4px; top: 4px; padding: 4px; }
   .theme-toggle { order: 2; flex-shrink: 0; }
-  /* Quick Tabs below header */
-  .quick-tabs { order: 3; width: 100%; justify-content: center; flex-wrap: wrap; gap: 5px; margin-top: 8px; padding: 0; /* Remove padding */ }
+  .quick-tabs { order: 3; width: 100%; justify-content: center; flex-wrap: wrap; gap: 5px; margin-top: 8px; padding: 0; }
   .tab { font-size: 12px; padding: 5px 8px; }
 
   /* Footer adjustments */
-  .footer-content { flex-direction: column; gap: 15px; } /* Reduce gap */
+  .footer-content { flex-direction: column; gap: 15px; }
   .footer-brand { order: 2; margin-top: 0; }
-  .social-links { order: 1; gap: 10px; } /* Reduce gap */
-  .social-link { padding: 3px 6px; } /* Adjust padding */
-  .social-icon { width: 22px; height: 22px; } /* Smaller icons */
-  .social-text { font-size: 11px; } /* Smaller text */
+  .social-links { order: 1; gap: 10px; }
+  .social-link { padding: 3px 6px; }
+  .social-icon { width: 22px; height: 22px; }
+  .social-text { font-size: 11px; }
 }
-/* === KẾT THÚC CODE 09 === */
+/* === KẾT THÚC CODE 10 === */
