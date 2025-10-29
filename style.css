@@ -1,4 +1,4 @@
-/* style.css - Fix sidebar/content width on mobile */
+/* style.css - Final mobile header & footer tweaks */
 :root{
   --bg: #071022;
   --card-bg: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
@@ -182,16 +182,10 @@ body.light .social-link:hover .social-text { color: var(--accent); }
 body.light .contact-info { color: var(--text); }
 
 /* Layout */
-/* === THAY ĐỔI (CODE 10): Ensure grid takes full width available */
 .main-grid{
-    display:grid;
-    grid-template-columns: 260px 1fr; /* Default desktop layout */
-    gap:20px;
-    padding:18px;
-    align-items: start;
-    max-width: 100%; /* Prevent grid from exceeding viewport width */
+    display:grid; grid-template-columns: 260px 1fr; gap:20px;
+    padding:18px; align-items: start; max-width: 100%;
 }
-/* === KẾT THÚC (CODE 10) === */
 
 /* Sidebar */
 .sidebar{ background:var(--panel); padding:14px; border-radius:12px; box-shadow:var(--shadow); }
@@ -219,12 +213,7 @@ select option { background-color: var(--bg); color: var(--text); }
 .btn-history:active { transform: scale(0.98); transition-duration: 0.1s; }
 
 /* Content Area */
-/* === THÊM MỚI (CODE 10): Ensure content area can shrink */
-.content {
-    min-width: 0; /* Allow content area to shrink below its intrinsic minimum width */
-}
-/* === KẾT THÚC (CODE 10) === */
-
+.content { min-width: 0; }
 
 /* --- Phần còn lại của file CSS giữ nguyên --- */
 /* Hero */
@@ -380,7 +369,7 @@ select option { background-color: var(--bg); color: var(--text); }
     border-top: 2px solid var(--accent-2); padding: 25px 18px; margin-top: 40px;
     color: var(--text); font-size: 14px; text-align: center;
 }
-.footer-content { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; }
+.footer-content { max-width: 100%; /* Allow full width on mobile */ margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; }
 .footer-brand { display: flex; align-items: center; gap: 10px; }
 .footer-logo { width: 30px; height: 30px; border-radius: 50%; }
 .social-links { display: flex; align-items: center; gap: 25px; flex-wrap: wrap; justify-content: center; }
@@ -470,24 +459,36 @@ select option { background-color: var(--bg); color: var(--text); }
   #pagination button {padding: 6px 10px;min-width: 35px;}
 
   /* Header adjustments for Mobile */
-  .header { padding: 10px 15px; gap: 8px; }
-  .brand { margin-bottom: 0; width: auto; order: 1; justify-content: flex-start; /* Align brand left */ }
+  .header { padding: 10px 15px; gap: 8px; align-items: center; /* Vertically center items */ }
+  .brand { margin-bottom: 0; width: auto; order: 1; flex-grow: 0; /* Don't allow brand to grow */ }
   .logo { width: 35px; height: 35px; }
   .brand-text { font-size: 18px; }
-  .header-controls { order: 2; flex-grow: 1; justify-content: flex-end; /* Push search/theme to right */ flex-wrap: nowrap; gap: 8px;}
-  .search-wrap { order: 1; flex-grow: 1; max-width: none; }
-  .search-wrap input { width: 100%; padding: 8px 30px 8px 10px; }
-  .search-wrap button { right: 4px; top: 4px; padding: 4px; }
+  /* === THAY ĐỔI (CODE 11): Group Search/Theme, align properly === */
+  .header-controls {
+      order: 2; flex-grow: 1; justify-content: flex-end; /* Push controls to the right */
+      flex-wrap: nowrap; gap: 8px; width: auto; /* Allow natural width */
+  }
+  .search-wrap { order: 1; flex-grow: 1; max-width: 200px; /* Limit search width slightly */ }
+  .search-wrap input { width: 100%; padding: 8px 30px 8px 10px; font-size: 13px; /* Smaller font */}
+  .search-wrap button { right: 4px; top: 50%; transform: translateY(-50%); padding: 4px; } /* Center clear button */
   .theme-toggle { order: 2; flex-shrink: 0; }
+  /* === KẾT THÚC (CODE 11) === */
+  /* Quick Tabs below header */
   .quick-tabs { order: 3; width: 100%; justify-content: center; flex-wrap: wrap; gap: 5px; margin-top: 8px; padding: 0; }
   .tab { font-size: 12px; padding: 5px 8px; }
 
   /* Footer adjustments */
-  .footer-content { flex-direction: column; gap: 15px; }
-  .footer-brand { order: 2; margin-top: 0; }
-  .social-links { order: 1; gap: 10px; }
+  /* === THAY ĐỔI (CODE 11): Center footer content better === */
+  .footer-content {
+      flex-direction: column; gap: 15px; align-items: center; /* Center items */
+      max-width: 100%; /* Ensure it doesn't overflow */
+      padding: 0 10px; /* Add slight horizontal padding */
+   }
+  .footer-brand { order: 2; margin-top: 0; text-align: center; } /* Center text */
+  .social-links { order: 1; gap: 10px; justify-content: center; width: 100%; } /* Ensure links center */
   .social-link { padding: 3px 6px; }
   .social-icon { width: 22px; height: 22px; }
   .social-text { font-size: 11px; }
+  /* === KẾT THÚC (CODE 11) === */
 }
-/* === KẾT THÚC CODE 10 === */
+/* === KẾT THÚC CODE 11 === */
