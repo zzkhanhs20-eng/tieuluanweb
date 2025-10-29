@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Movie Tâm — Nộp Tiểu Luận | Trang Xem Phim Nâng Cao</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <div class="brand" id="brandLogo">
+        <img src="assets/logo.jpg" alt="Movie Tâm Logo" class="logo" />
+        <span class="brand-text rainbow-text">Movie Tâm</span>
+      </div>
+
+      <div class="header-controls">
+        <div class="search-wrap">
+          <input id="searchInput" type="search" placeholder="Tìm phim, đạo diễn, diễn viên..." aria-label="Tìm kiếm phim" />
+          <button id="clearSearch" title="Xóa">✕</button>
+        </div>
+
+        <div class="quick-tabs" id="quickTabs" role="tablist" aria-label="Chuyển nhanh">
+          <button class="tab" id="homeButton" data-filter="home">🏠 Home</button>
+          <button class="tab active" data-filter="all">Tất cả</button>
+
+          <button class="tab ranking-btn" id="rankingWeek" data-rank="week">🏆 Top tuần</button>
+          <button class="tab ranking-btn" id="rankingDay" data-rank="day">🔥 Top ngày</button>
+
+          <button class="tab" data-filter="top-rated">Được đánh giá</button>
+        </div>
+
+        <label class="theme-toggle">
+          <input id="themeSwitch" type="checkbox" />
+          <span class="slider"></span>
+        </label>
+      </div>
+    </header>
+
+    <main class="main-grid">
+      <aside class="sidebar" id="sidebar">
+        <div class="sidebar-section profile-widget-wrap" id="profileWidgetContainer">
+          <h3>Tài khoản</h3>
+          <button id="openProfileModalBtn" class="btn filter-toggle">Đăng nhập / Tạo tài khoản</button>
+        </div>
+        <div class="sidebar-section">
+          <h3>Thể loại</h3>
+          <button id="toggleGenreModal" class="btn filter-toggle">Chọn Thể loại</button>
+          <div id="genresContainer" class="genres-list hidden">
+              </div>
+        </div>
+        <div class="sidebar-section">
+          <h3>Năm</h3>
+          <button id="toggleYearModal" class="btn filter-toggle">Chọn Năm (Mọi năm)</button>
+        </div>
+        <div class="sidebar-section">
+          <h3>Điểm (rating)</h3>
+          <select id="ratingFilter">
+            <option value="0">Tất cả</option>
+            <option value="8">8+</option>
+            <option value="7">7+</option>
+            <option value="6">6+</option>
+          </select>
+        </div>
+        <div class="sidebar-section">
+          <h3>Sắp xếp</h3>
+          <select id="sortSelect">
+            <option value="popular">Phổ biến</option>
+            <option value="newest">Mới nhất</option>
+            <option value="rating">Điểm cao</option>
+            <option value="alpha">A → Z</option>
+          </select>
+        </div>
+        <div class="sidebar-section">
+          <h3>Yêu thích</h3>
+          <button id="viewFavorites" class="btn">Xem phim đã lưu</button>
+        </div>
+        <div class="sidebar-section">
+          <h3>Lịch sử tương tác</h3>
+          <div class="history-filters">
+            <button class="btn-history" id="viewLiked" title="Phim bạn đã thích">👍 Đã thích</button>
+            <button class="btn-history" id="viewDisliked" title="Phim bạn đã không thích">👎 Đã không thích</button>
+            <button class="btn-history" id="viewRated" title="Phim bạn đã cho điểm">⭐ Đã đánh giá</button>
+            <button class="btn-history" id="viewCommented" title="Phim bạn đã bình luận">💬 Đã bình luận</button>
+          </div>
+        </div>
+
+        <div class="sidebar-section music-player">
+            <h3>🎵 Nghe nhạc</h3>
+            <audio id="audioPlayer"></audio>
+            <input type="range" id="seekBar" value="0" step="1" title="Tiến trình">
+            <div class="time-display"> <span id="currentTime">0:00</span>
+                <span id="durationTime">0:00</span>
+            </div>
+            <div id="currentSong" class="current-song-title">-- Đang tải --</div>
+            <div class="player-controls">
+                <button id="prevTrack" title="Bài trước"><i class="fas fa-backward-step"></i></button>
+                <button id="playPause" title="Phát/Tạm dừng"><i class="fas fa-play"></i></button>
+                <button id="nextTrack" title="Bài sau"><i class="fas fa-forward-step"></i></button>
+            </div>
+            
+            <div id="musicPlaylistContainer" class="playlist-container">
+                </div>
+            </div>
+        </aside>
+
+      <section class="content">
+        <section class="hero" id="hero">
+          <div class="hero-inner" id="heroInner">
+            </div>
+          <div class="hero-controls">
+            <button id="prevHero">‹</button>
+            <button id="nextHero">›</button>
+          </div>
+        </section>
+        <section class="toolbar">
+          <div id="resultsInfo" class="results-info">Hiển thị <span id="resultCount">0</span> phim</div>
+          <div class="view-controls">
+            <button id="gridView" class="icon active" title="Grid">🔲</button>
+            <button id="listView" class="icon" title="List">📋</button>
+          </div>
+        </section>
+        <div id="moviesGrid" class="movies-grid" aria-live="polite"></div>
+        <nav class="pagination" id="pagination">
+          <button id="prevPage">«</button>
+          <div id="pages"></div>
+          <button id="nextPage">»</button>
+        </nav>
+      </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                 <img src="assets/logo.jpg" alt="Movie Tâm Logo" class="footer-logo" />
+                 <span>&copy; 2025 Movie Tâm. Thực hiện bởi Thiện Tâm.</span>
+            </div>
+            <div class="social-links">
+                <a href="https://www.facebook.com/tem.thien.5?locale=vi_VN" target="_blank" title="Facebook" class="social-link rainbow-border">
+                   <img src="assets/fb.svg.png" alt="Facebook Logo" class="social-icon">
+                   <span class="social-text">Thiện Tâm</span>
+                </a>
+                <a href="https://www.tiktok.com/@tam190505" target="_blank" title="TikTok" class="social-link rainbow-border">
+                    <img src="assets/tiktok.svg.png" alt="TikTok Logo" class="social-icon">
+                    <span class="social-text">tam190505</span>
+                </a>
+                <a href="mailto:thientam190505@gmail.com" title="Gmail" class="social-link rainbow-border">
+                     <img src="assets/gmail.svg.png" alt="Gmail Logo" class="social-icon">
+                     <span class="social-text">thientam190505@gmail.com</span>
+                </a>
+                <span class="contact-info" title="Số điện thoại">
+                    📞 0328 xxx 660
+                </span>
+            </div>
+        </div>
+    </footer>
+
+  </div> <div id="profileModal" class="modal hidden" aria-hidden="true">
+    <div class="modal-overlay" id="profileModalOverlay"></div>
+    <div class="modal-content profile-modal-content" role="dialog" aria-modal="true" aria-labelledby="profileModalTitle">
+      <button class="modal-close" id="profileModalClose" aria-label="Đóng">&times;</button>
+      <div class="modal-body profile-modal-body">
+        <h2 id="profileModalTitle">Tạo Hồ Sơ Của Bạn</h2>
+        <p>Bạn cần tên và avatar để bình luận, yêu thích và đánh giá phim.</p>
+        <div class="profile-form-group">
+          <label for="profileNameInput">Tên của bạn</label>
+          <input id="profileNameInput" type="text" placeholder="Nhập tên của bạn..." />
+        </div>
+        <div class="profile-form-group">
+          <label>Chọn Avatar</label>
+          <div id="profileAvatarGrid" class="avatar-selector-grid"></div>
+        </div>
+        <div class="profile-controls">
+          <button id="saveProfileBtn" class="btn">Lưu Hồ Sơ</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="movieModal" class="modal hidden" aria-hidden="true">
+    <div class="modal-overlay" id="modalOverlay"></div>
+    <div class="modal-content movie-detail-content" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <button class="modal-close" id="modalClose" aria-label="Đóng">&times;</button>
+      <div class="modal-body-detail">
+        <div class="main-info-wrap" id="modalBody"></div>
+        <div class="interaction-section" id="interactionSection"></div>
+      </div>
+    </div>
+  </div>
+  <div id="genreFilterModal" class="modal hidden" aria-hidden="true">
+    <div class="modal-overlay" id="genreModalOverlay"></div>
+    <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="genreModalTitle">
+      <button class="modal-close" id="genreModalClose" aria-label="Đóng">&times;</button>
+      <div class="modal-body">
+          <h2 id="genreModalTitle">Lọc theo Thể loại</h2>
+          <div id="genreModalContent" class="genres-list genre-modal-list"></div>
+          <div class="genre-controls">
+            <button id="clearGenreFilter" class="btn">Xóa lọc</button>
+            <button id="applyGenreFilter" class="btn">Áp dụng</button>
+          </div>
+      </div>
+    </div>
+  </div>
+  <div id="yearFilterModal" class="modal hidden" aria-hidden="true">
+    <div class="modal-overlay" id="yearModalOverlay"></div>
+    <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="yearModalTitle">
+      <button class="modal-close" id="yearModalClose" aria-label="Đóng">&times;</button>
+      <div class="modal-body">
+        <h2 id="yearModalTitle">Chọn Khoảng Năm Phát Hành</h2>
+        <div class="year-controls-wrap">
+          <div class="range-group" style="margin-bottom: 15px;">
+            <input id="modalYearMin" type="number" placeholder="Từ năm" />
+            <input id="modalYearMax" type="number" placeholder="Đến năm" />
+          </div>
+          <p id="yearFilterStatus" style="font-size: 14px; margin-bottom: 15px; color: var(--muted);"></p>
+          <h4>Chọn Nhanh</h4>
+          <div id="quickYearSelectors" class="quick-year-selectors"></div>
+        </div>
+        <div class="genre-controls">
+          <button id="clearYearFilter" class="btn">Xóa lọc</button>
+          <button id="applyYearFilter" class="btn">Áp dụng</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="rankingModal" class="modal hidden" aria-hidden="true">
+    <div class="modal-overlay" id="rankingModalOverlay"></div>
+    <div class="modal-content ranking-content" role="dialog" aria-modal="true" aria-labelledby="rankingModalTitle">
+      <button class="modal-close" id="rankingModalClose" aria-label="Đóng">&times;</button>
+      <div class="modal-body-ranking">
+          <h2 id="rankingModalTitle">Bảng Xếp Hạng</h2>
+          <div id="rankingListContainer" class="ranking-list-container"></div>
+      </div>
+    </div>
+  </div>
+  <template id="movieCardTpl">
+    <article class="movie-card" tabindex="0">
+      <img class="poster" alt="Poster"/>
+      <div class="card-body">
+        <div class="left">
+          <div class="movie-title"></div>
+          <div class="meta small"></div>
+          <div class="genres small muted"></div>
+        </div>
+        <div class="right">
+          <div class="rating"></div>
+          <button class="fav-btn" title="Thêm yêu thích">♡</button>
+        </div>
+      </div>
+    </article>
+  </template>
+
+  <script src="app.js"></script>
+</body>
+</html>

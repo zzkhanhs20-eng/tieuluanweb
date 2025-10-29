@@ -1,0 +1,937 @@
+/* style.css - upgraded look & improved genre modal */
+:root{
+  --bg: #071022;
+  --card-bg: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+  --panel: rgba(255,255,255,0.03);
+  --text: #e6eef8;
+  --muted: #9aa8bf;
+  --accent: #ff6b6b; /* Màu nhấn chính (đỏ hồng) */
+  --glass: rgba(255,255,255,0.04);
+  --shadow: 0 10px 30px rgba(2,6,23,0.7);
+  --accent-2: #60a5fa; /* Màu nhấn phụ (xanh dương) */
+  --rank-gold: #ffc107;
+  --rank-silver: #a0a0a0;
+  --rank-bronze: #cd7f32;
+  --like-color: #60a5fa;
+  --dislike-color: #ff6b6b;
+  /* === THÊM MỚI (CODE 17): Gradient cho nút sidebar === */
+  --sidebar-btn-bg: linear-gradient(145deg, var(--accent-2), var(--accent));
+  --sidebar-btn-hover-bg: linear-gradient(145deg, #7dc0ff, #ff8a8a); /* Sáng hơn khi hover */
+  /* === KẾT THÚC === */
+}
+
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto; background:var(--bg); color:var(--text); -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;}
+/* === THÊM MỚI (CODE 10): Ensure footer stays at bottom */
+body { display: flex; flex-direction: column; min-height: 100vh; }
+.app { flex-grow: 1; }
+/* === KẾT THÚC (CODE 10) === */
+
+a{color:inherit;text-decoration:none}
+
+/* === THÊM MỚI (CODE 04): Animation tải trang === */
+@keyframes fadeInSlideUp {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.main-grid {
+  animation: fadeInSlideUp 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.1s both;
+}
+/* === KẾT THÚC (CODE 04) === */
+
+/* === THÊM MỚI (CODE 05): Animation Fade-in cho lưới phim === */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.grid-fade-in {
+  animation: fadeIn 0.4s ease;
+}
+/* === KẾT THÚC (CODE 05) === */
+
+
+/* Header */
+.header{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;border-bottom:1px solid rgba(255,255,255,0.03);position:sticky;top:0;background:linear-gradient(180deg, rgba(0,0,0,0.25), transparent);backdrop-filter: blur(6px);z-index:50; gap: 15px;}
+.brand{display:flex;align-items:center;gap:12px;cursor:pointer; flex-shrink: 0;}
+/* === THAY ĐỔI (CODE 18): Tăng kích thước logo header === */
+.logo{width:54px;height:54px}
+/* === KẾT THÚC (CODE 18) === */
+/* === THAY ĐỔI (CODE 18): Tăng kích thước chữ brand === */
+.brand-text{font-weight:700;font-size:26px;letter-spacing:0.6px}
+/* === KẾT THÚC (CODE 18) === */
+
+/* Rainbow Effect */
+@keyframes rainbow-cycle {
+  0%   { filter: hue-rotate(0deg); background-position: 0% 50%; }
+  50%  { filter: hue-rotate(180deg); background-position: 100% 50%; }
+  100% { filter: hue-rotate(360deg); background-position: 0% 50%; }
+}
+.rainbow-text {
+  background: linear-gradient(to right, #ef5350, #ffca28, #66bb6a, #42a5f5, #ab47bc, #ef5350);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  /* === THAY ĐỔI (CODE 08): Tăng tốc độ animation === */
+  animation: rainbow-cycle 2.5s linear infinite;
+  /* === KẾT THÚC (CODE 08) === */
+  white-space: nowrap;
+}
+
+/* === THÊM LẠI (CODE 16): Rainbow Border Effect === */
+@keyframes rainbow-border-cycle {
+  0%   { border-color: #ef5350; }
+  16%  { border-color: #ffca28; }
+  33%  { border-color: #66bb6a; }
+  50%  { border-color: #42a5f5; }
+  66%  { border-color: #ab47bc; }
+  83%  { border-color: #ef5350; }
+  100% { border-color: #ef5350; }
+}
+.rainbow-border {
+  border-width: 2px; /* Đảm bảo border đủ dày */
+  border-style: solid;
+  animation: rainbow-border-cycle 2.5s linear infinite;
+}
+/* === KẾT THÚC (CODE 16) === */
+
+
+/* Header Controls */
+.header-controls{display:flex;align-items:center;gap:12px}
+.search-wrap{position:relative}
+.search-wrap input{
+  width:320px;
+  padding:10px 36px 10px 12px;
+  border-radius:8px;
+  border:1px solid rgba(255,255,255,0.06);
+  background:transparent;
+  color:var(--text);
+  /* === THAY ĐỔI (CODE 05): Thêm box-shadow vào transition === */
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+/* === THAY ĐỔI (CODE 17): Highlight search bar khi focus === */
+.search-wrap input:focus {
+  outline: none;
+  border-color: var(--accent-2); /* Đổi màu viền khi focus */
+  box-shadow: 0 0 0 2px rgba(96, 165, 250, 0.3); /* Thêm box-shadow nhẹ */
+}
+/* === KẾT THÚC === */
+.search-wrap button{position:absolute;right:6px;top:6px;border:none;background:transparent;color:var(--muted);cursor:pointer;padding:6px;border-radius:6px}
+
+/* === THAY ĐỔI (CODE 17): Làm nổi bật Quick Tabs === */
+.quick-tabs{display:flex;gap:8px}
+.tab{
+  background:transparent;
+  border: none; /* Bỏ border mặc định */
+  color:var(--muted);
+  padding:8px 12px; /* Tăng padding ngang */
+  border-radius:8px;
+  cursor:pointer;
+  transition: all .2s ease;
+  font-weight: 500; /* Tăng độ dày chữ */
+  border-bottom: 2px solid transparent; /* Thêm border dưới trong suốt */
+}
+.tab:hover{
+  background:rgba(255,255,255,0.05);
+  color:var(--text); /* Chữ rõ hơn khi hover */
+  border-bottom-color: var(--muted); /* Hiện border dưới khi hover */
+  /* === THÊM MỚI (CODE 04): Hiệu ứng nút tab === */
+  transform: translateY(-1px);
+  /* === KẾT THÚC (CODE 04) === */
+}
+/* === THÊM MỚI (CODE 05): Hiệu ứng nhấn nút tab === */
+.tab:active {
+  transform: translateY(0) scale(0.95);
+  transition-duration: 0.1s;
+}
+/* === KẾT THÚC (CODE 05) === */
+.tab.active{
+  background:transparent; /* Bỏ background active cũ */
+  color:var(--accent-2); /* Màu chữ active */
+  font-weight: 700; /* Chữ đậm hơn */
+  border-bottom-color: var(--accent-2); /* Border dưới màu active */
+}
+#homeButton{color:var(--accent);font-weight:600;} /* Giữ màu đỏ hồng cho Home */
+#homeButton.active { color: var(--accent); border-bottom-color: var(--accent); } /* Active cho Home */
+/* === KẾT THÚC === */
+
+/* Theme toggle */
+.theme-toggle{display:flex;align-items:center;gap:8px;cursor:pointer}
+.theme-toggle input{display:none}
+/* === THAY ĐỔI (CODE 17): Màu mè hơn cho Theme Toggle === */
+.theme-toggle .slider{
+  width:46px;
+  height:26px;
+  background: #334155; /* Màu nền tối hơn */
+  border-radius:999px;
+  position:relative;
+  transition: background-color 0.25s ease;
+}
+.theme-toggle .slider::after{
+  content:"";
+  width:18px;
+  height:18px;
+  background:#cbd5e1; /* Màu nút */
+  border-radius:50%;
+  position:absolute;
+  top:4px;
+  left:4px;
+  transition:all .25s;
+}
+.theme-toggle input:checked + .slider {
+  background-color: var(--accent-2); /* Nền xanh khi bật */
+}
+.theme-toggle input:checked + .slider::after {
+  transform: translateX(20px); /* Di chuyển nút */
+  background-color: white; /* Nút trắng khi bật */
+}
+/* === KẾT THÚC === */
+
+body.light{
+  --bg:#f4f6fb;
+  --card-bg: #fff;
+  --panel:#fff;
+  --text:#111827;
+  --muted:#6b7280;
+  --accent:#2563eb;
+  --shadow: 0 10px 30px rgba(0,0,0,0.1);
+  --accent-2: #2563eb; /* Đổi accent 2 thành màu accent chính của light theme */
+  /* === THÊM MỚI (CODE 17): Gradient cho light theme === */
+  --sidebar-btn-bg: linear-gradient(145deg, var(--accent), #4f8aff); /* Điều chỉnh gradient light */
+  --sidebar-btn-hover-bg: linear-gradient(145deg, #4f8aff, #73a3ff);
+}
+/* Cập nhật style nút theme toggle cho light theme */
+body.light .theme-toggle .slider { background: #e2e8f0; }
+body.light .theme-toggle .slider::after { background: #94a3b8; }
+body.light .theme-toggle input:checked + .slider { background-color: var(--accent); }
+body.light .theme-toggle input:checked + .slider::after { background-color: white; }
+/* Cập nhật search focus cho light theme */
+body.light .search-wrap input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+}
+
+/* Layout */
+/* === THAY ĐỔI (CODE 02): Thêm 'align-items: start' để ngăn sidebar/content kéo dãn nhau === */
+.main-grid{display:grid;grid-template-columns:260px 1fr;gap:20px;padding:18px; align-items: start;}
+/* === KẾT THÚC (CODE 02) === */
+
+.sidebar{
+  background:var(--panel);
+  padding:14px;
+  border-radius:12px;
+  box-shadow:var(--shadow);
+  /* === THAY ĐỔI (CODE 02): Xóa 2 dòng sau để bỏ thanh cuộn === */
+  /* height:calc(100vh - 106px); */
+  /* overflow:auto; */
+  /* === KẾT THÚC (CODE 02) === */
+}
+.sidebar-section{margin-bottom:16px}
+.sidebar h3{margin:0 0 8px 0;color:var(--muted);font-size:13px}
+/* === THAY ĐỔI (CODE 17): Style cho các nút Sidebar === */
+.sidebar .btn { /* Áp dụng cho cả .filter-toggle và #viewFavorites */
+    padding: 10px 14px; /* Tăng padding */
+    border-radius: 8px;
+    background: var(--sidebar-btn-bg); /* Gradient nền */
+    color: white; /* Chữ trắng */
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center; /* Căn giữa chữ */
+    font-weight: 600; /* Chữ đậm hơn */
+    width: 100%; /* Đảm bảo nút chiếm đủ chiều rộng */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* Thêm bóng đổ nhẹ */
+    background-size: 150% 150%; /* Cho gradient hover */
+}
+.sidebar .btn:hover {
+    background: var(--sidebar-btn-hover-bg); /* Gradient sáng hơn khi hover */
+    transform: translateY(-2px); /* Nhấc nút lên nhẹ */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3); /* Tăng bóng đổ khi hover */
+}
+/* === THÊM MỚI (CODE 05): Hiệu ứng nhấn nút sidebar === */
+.sidebar .btn:active {
+  transform: translateY(0) scale(0.98);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  transition-duration: 0.1s;
+}
+/* === KẾT THÚC (CODE 05) === */
+
+/* === KẾT THÚC === */
+
+.range-group{display:flex;gap:8px}
+.range-group input{width:50%;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:var(--text)}
+.select,select{width:100%;padding:8px;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--text)}
+select, .range-group input {
+    background: var(--card-bg);
+}
+select option {
+  background-color: var(--bg);
+  color: var(--text);
+}
+body.light select option {
+  background-color: #fff;
+  color: var(--text);
+}
+
+/* === THÊM MỚI (CODE 01): Lịch sử tương tác === */
+.history-filters {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Lưới 2 cột */
+  gap: 8px;
+  margin-top: 8px;
+}
+.btn-history {
+  padding: 8px 10px;
+  border-radius: 6px;
+  background: var(--card-bg); /* Dùng nền card-bg cho nhẹ nhàng */
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 13px;
+  text-align: center;
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.btn-history:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text);
+  border-color: var(--accent-2);
+  /* === THÊM MỚI (CODE 04): Hiệu ứng nút lịch sử === */
+  transform: scale(1.05);
+  /* === KẾT THÚC (CODE 04) === */
+}
+/* === THÊM MỚI (CODE 05): Hiệu ứng nhấn nút lịch sử === */
+.btn-history:active {
+  transform: scale(0.98);
+  transition-duration: 0.1s;
+}
+/* === KẾT THÚC (CODE 05) === */
+/* === KẾT THÚC (CODE 01) === */
+
+/* Hero */
+/* ... (Giữ nguyên) ... */
+.hero{position:relative;height:320px;border-radius:12px;overflow:hidden;background:linear-gradient(90deg, rgba(0,0,0,0.3), rgba(2,6,23,0.6));box-shadow:var(--shadow);display:flex;align-items:center}
+.hero-inner{display:flex;transition:transform .6s cubic-bezier(.2,.9,.3,1);width:100%}
+.hero-slide{min-width:100%;height:100%;display:flex;gap:20px;padding:28px;align-items:center}
+.hero-slide .info{max-width:55%}
+.hero-slide img {width: 45%;height: auto;aspect-ratio: 16/9;object-fit: cover;border-radius: 10px;box-shadow: 0 20px 50px rgba(0,0,0,0.6);}
+.hero-title{font-size:28px;font-weight:700;margin-bottom:8px}
+.hero-desc{color:var(--muted);max-width:60%;line-height:1.4}
+.hero-controls{position:absolute;right:12px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:6px}
+.hero-controls button{background:rgba(0,0,0,0.4);border:none;color:var(--text);padding:6px 10px;border-radius:8px;cursor:pointer; transition: transform 0.1s ease;} /* Thêm transition (CODE 05) */
+/* === THÊM MỚI (CODE 05): Hiệu ứng nhấn nút hero === */
+.hero-controls button:active {
+  transform: scale(0.9);
+}
+/* === KẾT THÚC (CODE 05) === */
+
+
+/* Toolbar */
+/* ... (Giữ nguyên) ... */
+.toolbar{display:flex;justify-content:space-between;align-items:center;padding:12px 0}
+.results-info{color:var(--muted)}
+.view-controls .icon{background:transparent;border:none;color:var(--muted);padding:8px;border-radius:8px;cursor:pointer; transition: transform 0.1s ease;} /* Thêm transition (CODE 05) */
+.view-controls .icon.active{color:var(--accent-2)}
+/* === THÊM MỚI (CODE 05): Hiệu ứng nhấn nút view === */
+.view-controls .icon:active {
+  transform: scale(0.9);
+}
+/* === KẾT THÚC (CODE 05) === */
+
+
+/* Movies Grid */
+/* ... (Giữ nguyên) ... */
+.movies-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px}
+.movie-card{background:var(--card-bg);border-radius:12px;overflow:hidden;box-shadow:0 10px 30px rgba(2,6,23,0.5);cursor:pointer;display:flex;flex-direction:column;transition:transform .25s ease,box-shadow .25s ease}
+/* === THAY ĐỔI (CODE 04): Cập nhật hiệu ứng hover thẻ phim === */
+.movie-card:hover{
+  transform: translateY(-8px) scale(1.03); /* Phóng to nhẹ */
+  box-shadow: 0 15px 40px rgba(2, 6, 23, 0.8); /* Tăng bóng đổ */
+}
+/* === KẾT THÚC (CODE 04) === */
+.movie-card .poster{width:100%;height:270px;object-fit:cover;display:block}
+.card-body{padding:12px;display:flex;justify-content:space-between;gap:8px;align-items:flex-start}
+.movie-title{font-weight:700}
+.meta.small{color:var(--muted);font-size:13px}
+.genres.small{font-size:12px;color:var(--muted);margin-top:6px}
+/* === THAY ĐỔI (CODE 06): Áp dụng hiệu ứng rainbow cho rating === */
+.rating{
+  font-weight:700;
+  /* color:var(--accent); Xóa màu cố định */
+}
+.rating.rainbow-text { /* Áp dụng class rainbow-text */
+    background: linear-gradient(to right, #ef5350, #ffca28, #66bb6a, #42a5f5, #ab47bc, #ef5350);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    /* === THAY ĐỔI (CODE 08): Tăng tốc độ animation === */
+    animation: rainbow-cycle 2.5s linear infinite;
+    /* === KẾT THÚC (CODE 08) === */
+    white-space: nowrap;
+}
+/* === KẾT THÚC (CODE 06) === */
+
+.fav-btn{background:transparent;border:none;font-size:18px;cursor:pointer;color:var(--muted)}
+
+/* General Modal Styles */
+/* ... (Giữ nguyên) ... */
+.modal.hidden{display:none}
+.modal{position:fixed;inset:0;z-index:1200;display:flex;align-items:center;justify-content:center}
+.modal-overlay{position:absolute;inset:0;background:rgba(2,6,23,0.7);backdrop-filter: blur(4px)}
+
+/* === THAY ĐỔI (CODE 04): Thêm hiệu ứng xuất hiện cho Modal === */
+@keyframes modalFadeInScale {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.modal-content{
+  position:relative;
+  width:min(1000px,95%);
+  max-height:90vh;
+  overflow:auto;
+  border-radius:12px;
+  padding:0;
+  z-index:1210;
+  background:var(--panel);
+  animation: modalFadeInScale 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both; /* Áp dụng animation */
+}
+/* Ẩn animation khi modal bị ẩn đi (tránh giật lag) */
+.modal.hidden .modal-content {
+  animation: none;
+}
+/* === KẾT THÚC (CODE 04) === */
+
+.modal-close{position:absolute;right:12px;top:8px;font-size:28px;background:transparent;border:none;color:var(--muted);cursor:pointer; transition: transform 0.1s ease;} /* Thêm transition (CODE 05) */
+/* === THÊM MỚI (CODE 05): Hiệu ứng nhấn nút close === */
+.modal-close:active {
+  transform: scale(0.9);
+}
+/* === KẾT THÚC (CODE 05) === */
+
+.modal-body{display:flex;gap:16px;padding:20px;color:var(--text)}
+
+/* Detail Modal (movieModal) */
+/* ... (Giữ nguyên) ... */
+.modal-content.movie-detail-content{width: min(1200px, 95%);max-height: 95vh;}
+.modal-body-detail {display: grid;grid-template-columns: 2fr 1fr;gap: 20px;padding: 20px;}
+.main-info-wrap {display: flex;gap: 16px;flex-direction: column;}
+.modal-poster-wrap {display: flex;gap: 16px;}
+.modal-poster{width:320px;height:480px;object-fit:cover;border-radius:8px}
+.modal-info-text h2{margin-top:0}
+.meta{color:var(--muted);margin-bottom:8px}
+.modal-info-text .videoWrap { margin-bottom: 20px; background: #000; border-radius: 8px; overflow: hidden; }
+.modal-info-text iframe { max-width: 100%; min-height: 315px; display: block; }
+.modal-info-text, .modal-info-text p, .modal-info-text span, .modal-info-text div {color: var(--text);}
+/* .btn đã được style lại cho sidebar, nên giữ lại style gốc cho các nút khác */
+.modal-info-text .btn, .genre-controls .btn, .profile-controls .btn, .comment-form .btn {
+    padding: 8px 12px;
+    border-radius: 8px;
+    background: var(--accent);
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.1s ease; /* Thêm transform (CODE 05) */
+}
+.modal-info-text .btn:hover, .genre-controls .btn:hover, .profile-controls .btn:hover, .comment-form .btn:hover {
+    background: var(--accent-2);
+}
+/* === THÊM MỚI (CODE 05): Hiệu ứng nhấn nút trong modal === */
+.modal-info-text .btn:active, .genre-controls .btn:active, .profile-controls .btn:active, .comment-form .btn:active {
+  transform: scale(0.98);
+}
+/* === KẾT THÚC (CODE 05) === */
+
+
+/* Interaction Section Styles */
+/* ... (Giữ nguyên) ... */
+.interaction-section {padding: 10px;border-left: 1px solid rgba(255,255,255,0.05);display: flex;flex-direction: column;gap: 20px;}
+.rating-section h4, .comment-section h4 {margin: 0 0 10px 0;font-size: 18px;color: var(--text);border-bottom: 1px solid rgba(255,255,255,0.05);padding-bottom: 8px;}
+.user-rating h5 {margin: 0 0 8px 0;color: var(--muted);font-size: 14px;}
+.rating-stars {display: flex;gap: 5px;margin-bottom: 15px;}
+.star-btn {background: transparent;border: none;font-size: 24px;color: var(--muted);cursor: pointer;transition: color 0.2s, transform 0.1s ease;} /* Thêm transform (CODE 05) */
+.star-btn.rated, .star-btn:hover {color: var(--rank-gold);}
+/* === THÊM MỚI (CODE 05): Hiệu ứng nhấn nút sao === */
+.star-btn:active {
+  transform: scale(0.9);
+}
+/* === KẾT THÚC (CODE 05) === */
+
+.interaction-actions {display: flex;gap: 15px;align-items: center;border-top: 1px solid rgba(255,255,255,0.05);padding-top: 15px;}
+.action-btn {background: rgba(255,255,255,0.05);border: none;color: var(--text);padding: 8px 12px;border-radius: 6px;cursor: pointer;display: flex;align-items: center;gap: 6px;transition: background 0.2s, transform 0.1s ease;} /* Thêm transform (CODE 05) */
+.action-btn:hover {background: rgba(255,255,255,0.1);}
+.action-btn.like-btn.active {background: var(--like-color);color: white;}
+.action-btn.dislike-btn.active {background: var(--dislike-color);color: white;}
+/* === THÊM MỚI (CODE 05): Hiệu ứng nhấn nút action === */
+.action-btn:active {
+  transform: scale(0.95);
+}
+/* === KẾT THÚC (CODE 05) === */
+
+.comment-form textarea {width: 100%;min-height: 80px;padding: 10px;border-radius: 6px;border: 1px solid rgba(255,255,255,0.06);background: var(--card-bg);color: var(--text);resize: vertical;margin-bottom: 10px;}
+.comment-form .btn {width: 100%;padding: 10px;font-weight: 600;} /* Đảm bảo nút comment vẫn style đúng */
+.comments-list {max-height: 350px;overflow-y: auto;padding-right: 10px;display: flex;flex-direction: column;gap: 15px;}
+.comment-item {padding: 10px;border-radius: 6px;background: rgba(255,255,255,0.02);border-bottom: 1px solid rgba(255,255,255,0.05);}
+.comment-author {font-weight: 700;color: var(--accent-2);margin-bottom: 4px;font-size: 14px;}
+.comment-text {font-size: 14px;color: var(--text);}
+.comment-date {font-size: 11px;color: var(--muted);margin-top: 4px;display: block;}
+
+/* Ranking Modal Styles */
+/* ... (Giữ nguyên) ... */
+.ranking-content {width: min(700px, 95%);}
+.modal-body-ranking {padding: 20px;}
+.ranking-list-container {max-height: 60vh;overflow-y: auto;padding-right: 10px;}
+.ranking-item {display: grid;grid-template-columns: 40px 1fr 60px 80px;gap: 15px;align-items: center;padding: 12px 10px;border-bottom: 1px solid rgba(255,255,255,0.03);}
+.ranking-item:first-child .rank-number { color: var(--rank-gold); font-size: 20px; }
+.ranking-item:nth-child(2) .rank-number { color: var(--rank-silver); font-size: 18px; }
+.ranking-item:nth-child(3) .rank-number { color: var(--rank-bronze); font-size: 16px; }
+.rank-number { font-weight: 700; font-size: 15px; color: var(--muted); }
+.rank-title { font-weight: 600; }
+.rank-meta { font-size: 12px; color: var(--muted); }
+.rank-score { font-weight: 700; color: var(--accent); }
+.rank-views { font-size: 12px; color: var(--muted); }
+
+/* Other Modal Styles */
+/* ... (Giữ nguyên) ... */
+#genreFilterModal .modal-content {width: min(500px, 95%);overflow: hidden;}
+#genreFilterModal .modal-body {display: block;}
+.genre-modal-list {display: grid;grid-template-columns: repeat(2, 1fr);gap: 10px 15px;margin-bottom: 20px;max-height: 400px;overflow-y: auto;padding: 5px 10px 5px 0;}
+.genre-item {display: flex;align-items: center;cursor: pointer;font-size: 14px;gap: 8px;user-select: none;padding: 4px 0;}
+.genre-item span {font-weight: 500;}
+.genre-controls {display: flex;justify-content: flex-end;gap: 10px;}
+/* .filter-toggle đã được style lại ở .sidebar .btn */
+.genre-controls .btn {width: auto;} /* Đảm bảo nút áp dụng/xóa lọc không bị full width */
+
+/* Profile Styles */
+/* === CẬP NHẬT (CODE 18): Tăng kích thước widget profile === */
+.profile-widget {display: flex;align-items: center;gap: 15px; padding: 15px; background: var(--card-bg);border-radius: 8px;}
+.profile-widget img {width: 58px; height: 58px; border-radius: 50%;object-fit: cover;border: 3px solid var(--accent-2);}
+.profile-info .name {font-weight: 700;color: var(--text); font-size: 19px;}
+.profile-info .logout {font-size: 15px; color: var(--accent);cursor: pointer;text-decoration: underline; margin-top: 4px; display: inline-block;}
+/* === KẾT THÚC (CODE 18) === */
+
+/* #openProfileModalBtn đã được style lại ở .sidebar .btn */
+
+/* Profile Modal Styles */
+/* ... (Giữ nguyên) ... */
+.profile-modal-content {width: min(600px, 95%);}
+.profile-modal-body {display: flex;flex-direction: column;gap: 15px;padding: 20px;}
+.profile-form-group {display: flex;flex-direction: column;gap: 8px;}
+.profile-form-group label {font-weight: 600;color: var(--muted);}
+.profile-form-group input[type="text"] {width: 100%;padding: 10px;border-radius: 6px;border: 1px solid rgba(255,255,255,0.06);background: var(--card-bg);color: var(--text);}
+.avatar-selector-grid {display: grid;grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));gap: 10px;max-height: 250px;overflow-y: auto;padding: 10px;background: rgba(0,0,0,0.2);border-radius: 6px;}
+.avatar-option-item {width: 50px;height: 50px;border-radius: 50%;object-fit: cover;cursor: pointer;border: 3px solid transparent;transition: border 0.2s;}
+.avatar-option-item.selected {border-color: var(--accent);box-shadow: 0 0 10px var(--accent);}
+.profile-controls {margin-top: 10px;display: flex;justify-content: flex-end;}
+.profile-controls .btn {padding: 10px 20px;font-weight: 600;} /* Đảm bảo nút lưu profile style đúng */
+
+/* Interaction Disabled Styles */
+/* ... (Giữ nguyên) ... */
+.interaction-disabled-overlay {text-align: center;padding: 40px 20px;background: rgba(0,0,0,0.2);border-radius: 8px;border: 1px dashed var(--muted);}
+.interaction-disabled-overlay h4 {color: var(--accent);}
+.interaction-disabled-overlay p {color: var(--muted);}
+.interaction-disabled-overlay .btn-link {background: none;border: none;color: var(--accent-2);text-decoration: underline;font-size: 16px;cursor: pointer;padding: 0;}
+.interaction-disabled-overlay.small-prompt {padding: 20px;margin-bottom: 15px;}
+.interaction-disabled-overlay.small-prompt p {margin: 0;font-size: 14px;}
+.interaction-disabled-overlay.small-prompt .btn-link {font-size: 14px;display: inline;}
+.interaction-section.interaction-locked .star-btn,.interaction-section.interaction-locked .action-btn {cursor: not-allowed;opacity: 0.6;}
+.interaction-section.interaction-locked .star-btn:hover {color: var(--muted);}
+.interaction-section.interaction-locked .action-btn:hover {background: rgba(255,255,255,0.05);}
+.interaction-section.interaction-locked .like-btn.active:hover {background: var(--like-color);}
+.interaction-section.interaction-locked .dislike-btn.active:hover {background: var(--dislike-color);}
+
+/* Pagination Styles (CODE 16) */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-top: 30px;
+  padding: 10px 0;
+}
+#pagination button {
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--muted);
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.1s ease; /* Thêm transform (CODE 05) */
+  font-weight: 500;
+  min-width: 40px;
+  text-align: center;
+}
+#pagination button:hover:not(:disabled):not(.active) {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: var(--text);
+}
+#pagination #pages button.active {
+  background-color: var(--accent-2);
+  border-color: var(--accent-2);
+  color: white;
+  font-weight: 700;
+  cursor: default;
+}
+#pagination button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+/* === THÊM MỚI (CODE 05): Hiệu ứng nhấn nút phân trang === */
+#pagination button:active:not(:disabled) {
+  transform: scale(0.95);
+}
+/* === KẾT THÚC (CODE 05) === */
+
+#pagination #prevPage,
+#pagination #nextPage {
+  font-weight: bold;
+}
+
+/* Responsive */
+@media (max-width:1100px){
+    /* ... (Giữ nguyên) ... */
+    .modal-body-detail {grid-template-columns: 1fr;}
+    .interaction-section {border-left: none;border-top: 1px solid rgba(255,255,255,0.05);padding-top: 20px;}
+}
+@media (max-width:900px){
+  /* ... (Giữ nguyên) ... */
+  /* === THAY ĐỔI (CODE 02): Xóa 'height: auto' khỏi responsive, vì sidebar không còn height cố định nữa === */
+  .main-grid{grid-template-columns:1fr;padding:14px}
+  .sidebar{order:0; /* height:auto; */ width:100%}
+  /* === KẾT THÚC (CODE 02) === */
+  .hero{height:220px}
+  .movie-card .poster{height:200px}
+  .modal-poster-wrap{flex-direction:column;align-items:center}
+  .modal-poster{width:80%;height:auto;max-height:60vh}
+  #genreFilterModal .modal-content {width: 90%;}
+  .genre-modal-list {grid-template-columns: 1fr;}
+  /* Responsive cho pagination */
+  #pagination button {padding: 6px 10px;min-width: 35px;}
+}
+
+
+/* === CẬP NHẬT (CODE 19): Footer Styles with Text Labels === */
+.footer {
+    background: linear-gradient(180deg, rgba(7, 16, 34, 0.5), rgba(7, 16, 34, 0.8));
+    border-top: 2px solid var(--accent-2);
+    padding: 25px 18px;
+    margin-top: 40px;
+    color: var(--text);
+    font-size: 14px;
+    text-align: center;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.footer-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.footer-logo {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+}
+
+.social-links {
+    display: flex;
+    align-items: center;
+    gap: 25px; /* Tăng khoảng cách giữa các mục */
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+/* Style cho thẻ <a> bao quanh logo và text */
+.social-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    /* padding: 3px; */ /* Bỏ padding */
+    border-radius: 50%; /* Sẽ bị ghi đè bởi rainbow-border nếu có */
+    transition: transform 0.2s ease;
+    border: 2px solid transparent;
+    text-decoration: none;
+    color: var(--muted);
+}
+
+.social-link.rainbow-border {
+    animation: rainbow-border-cycle 2.5s linear infinite;
+    border-radius: 25px;
+    padding: 5px 10px;
+}
+/* Bỏ border-radius 50% cho icon khi có rainbow border */
+.social-link.rainbow-border .social-icon {
+    border-radius: 50%; /* Giữ icon tròn */
+}
+
+
+.social-link:hover {
+    transform: translateY(-3px) scale(1.05);
+    color: var(--accent);
+}
+
+/* Style cho ảnh logo trong footer */
+.social-icon {
+    display: block;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+/* Style cho text bên cạnh logo */
+.social-text {
+    font-size: 13px;
+    font-weight: 500;
+    white-space: nowrap;
+    transition: color 0.2s ease;
+}
+.social-link:hover .social-text {
+     color: var(--accent);
+}
+
+
+.contact-info {
+    cursor: default;
+    color: var(--text);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+
+/* Responsive Footer */
+@media (max-width: 768px) { /* Tăng breakpoint cho responsive */
+    .footer-content {
+        flex-direction: column;
+        gap: 20px; /* Tăng gap */
+    }
+    .footer-brand {
+       order: 2;
+       margin-top: 10px; /* Thêm khoảng cách */
+    }
+    .social-links {
+       order: 1;
+       gap: 15px;
+    }
+     .social-link {
+        padding: 3px 8px; /* Điều chỉnh padding */
+    }
+     .social-icon {
+        width: 24px; /* Logo nhỏ hơn nữa */
+        height: 24px;
+    }
+    .social-text {
+        font-size: 12px;
+    }
+}
+/* === KẾT THÚC (CODE 19) === */
+
+/* === CẬP NHẬT (CODE 24): Music Player Styles with Seek Bar & Time Display === */
+.music-player {
+    background: rgba(0,0,0,0.1);
+    border-radius: 8px;
+    padding: 12px;
+    border: 1px solid rgba(255,255,255,0.05);
+}
+
+/* Style cho Seek Bar */
+#seekBar {
+    width: 100%;
+    margin-bottom: 5px; /* Giảm khoảng cách dưới */
+    cursor: pointer;
+    height: 6px;
+    appearance: none; -webkit-appearance: none;
+    background: rgba(255,255,255,0.1);
+    border-radius: 3px;
+    outline: none;
+    transition: background 0.2s ease;
+}
+#seekBar:hover {
+     background: rgba(255,255,255,0.2);
+}
+
+#seekBar::-webkit-slider-thumb {
+    appearance: none; -webkit-appearance: none;
+    width: 14px;
+    height: 14px;
+    background: var(--accent-2);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+#seekBar::-moz-range-thumb { /* Firefox */
+    width: 14px;
+    height: 14px;
+    background: var(--accent-2);
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
+    transition: background 0.2s ease;
+}
+#seekBar:hover::-webkit-slider-thumb {
+     background: #8ec3ff;
+}
+#seekBar:hover::-moz-range-thumb {
+     background: #8ec3ff;
+}
+
+/* Style cho hiển thị thời gian */
+.time-display {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: 8px; /* Khoảng cách dưới */
+    padding: 0 2px; /* Căn lề nhỏ với seek bar */
+}
+
+.current-song-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 10px; /* Khoảng cách dưới */
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.player-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+}
+
+.player-controls button {
+    background: transparent;
+    border: none;
+    color: var(--muted);
+    font-size: 20px;
+    cursor: pointer;
+    padding: 5px;
+    transition: color 0.2s ease, transform 0.1s ease;
+}
+
+.player-controls button:hover {
+    color: var(--accent-2);
+}
+.player-controls button:active {
+    transform: scale(0.9);
+}
+/* === KẾT THÚC (CODE 24) === */
+
+/* === CẬP NHẬT (CODE 03): Style "sang + màu mè" cho Playlist === */
+@keyframes pulseIcon {
+  0%, 100% { transform: scale(1); opacity: 0.7; }
+  50% { transform: scale(1.2); opacity: 1; }
+}
+
+.playlist-container {
+    margin-top: 15px;
+    max-height: 160px; /* Chiều cao tối đa */
+    overflow-y: auto;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    padding-top: 8px; /* Tăng padding */
+    display: flex;
+    flex-direction: column;
+    gap: 2px; /* Giảm gap, để border làm vách ngăn */
+}
+
+.playlist-item {
+    padding: 10px 10px; /* Tăng padding */
+    font-size: 13px;
+    color: var(--muted);
+    cursor: pointer;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    user-select: none;
+    
+    /* FIX (CODE 03): Cho phép xuống dòng, sửa lỗi "Tav" */
+    white-space: normal; 
+    line-height: 1.4;
+
+    /* THÊM (CODE 03): Dùng flex cho icon tương lai */
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-left: 3px solid transparent; /* Thêm border-left trong suốt */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.02); /* Thêm vách ngăn mờ */
+}
+
+.playlist-item:hover {
+    background: rgba(255,255,255,0.05);
+    color: var(--text);
+    border-left-color: var(--accent); /* Hover thấy border đỏ */
+}
+
+/* Style cho bài hát đang được CHỌN (active) */
+.playlist-item.active {
+    background: rgba(96, 165, 250, 0.08); /* Nền xanh mờ */
+    color: var(--accent-2); /* Chữ xanh */
+    font-weight: 700;
+    border-left-color: var(--accent-2); /* Border xanh */
+}
+
+/* Style cho bài hát đang PHÁT (playing) */
+.playlist-item.playing::before {
+    content: '\f001'; /* Icon âm nhạc (lấy từ Font Awesome) */
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    font-size: 12px;
+    color: var(--accent); /* Màu đỏ hồng */
+    animation: pulseIcon 1.5s infinite ease-in-out; /* Animation nhấp nháy */
+    flex-shrink: 0; /* Đảm bảo icon không bị bóp */
+}
+
+/* Style cho TEXT của bài đang PHÁT */
+/* (Cần thẻ <span> bên trong .playlist-item, JS sẽ thêm vào) */
+.playlist-item.playing .playlist-item-text {
+    /* Hiệu ứng gradient "màu mè" */
+    background: linear-gradient(90deg, var(--accent), var(--accent-2), var(--accent));
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    animation: rainbow-cycle 3s linear infinite;
+    font-weight: 700;
+}
+/* === KẾT THÚC (CODE 03) === */
+
+
+/* Custom Scrollbar cho Playlist */
+.playlist-container::-webkit-scrollbar {
+    width: 6px;
+}
+.playlist-container::-webkit-scrollbar-track {
+    background: rgba(0,0,0,0.1);
+    border-radius: 3px;
+}
+.playlist-container::-webkit-scrollbar-thumb {
+    background: var(--muted);
+    border-radius: 3px;
+}
+.playlist-container::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-2);
+}
